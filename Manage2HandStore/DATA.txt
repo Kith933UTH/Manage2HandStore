@@ -1,0 +1,7 @@
+100001-L,ao tay dai,lv, 1000000 100
+100002-XL,quan jensu,vl, 20000 2000
+100003-2XL,quan ong bo,no brand, 30000 3000
+100004-3XL,quan jean,vl, 40000 5000
+100005-35,jordan 1,jr, 20000 2000
+100006-40,nike air,nike, 20000 2000
+100007-44,adidas,adidas, 20000 2000

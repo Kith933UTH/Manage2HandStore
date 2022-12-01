@@ -1,0 +1,6 @@
+5
+Store Name
+Store Description
+Store Address
+Store Contact
+Staff Name
