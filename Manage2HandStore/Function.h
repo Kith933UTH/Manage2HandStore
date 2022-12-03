@@ -50,14 +50,14 @@ NodeProduct* TranferQuantity(ProductList& l, NodeProduct*& from, int quantity) {
 }
 
 //ham in menu tra ve lua chon
-int PrintMenu(string attr[], int nAttr, int lenghtMenu, int printFrom = 0) {
+int PrintMenu(string attr[], int nAttr, int lenghtMenu, int printFrom = 0, string tab = "") {
 	//in header
 	int titleLen = (int)((lenghtMenu - attr[0].length()) / 2);
 	if ((lenghtMenu - attr[0].length()) % 2 != 0) {
 		lenghtMenu++;
 		titleLen++;
 	}
-	cout << "\n\t\t";
+	cout << "\n\t\t\t\t\t\t\t\t" << tab;
 	for (int i = 0; i < titleLen; i++) {
 		if (i == 0 || i == titleLen - 1) {
 			cout << "+";
@@ -80,10 +80,10 @@ int PrintMenu(string attr[], int nAttr, int lenghtMenu, int printFrom = 0) {
 	if (printFrom == 0) {
 		for (int i = 1; i < nAttr; i++) {
 			if (i - 1 < 10) {
-				cout << "\n\t\t| " << i - 1 << ". " << left << setw(lenghtMenu - 6) << attr[i].append(".") << "|";
+				cout << "\n\t\t\t\t\t\t\t\t" << tab << "| " << i - 1 << ". " << left << setw(lenghtMenu - 6) << attr[i].append(".") << "|";
 			}
 			else {
-				cout << "\n\t\t| " << i - 1 << ". " << left << setw(lenghtMenu - 7) << attr[i].append(".") << "|";
+				cout << "\n\t\t\t\t\t\t\t\t" << tab << "| " << i - 1 << ". " << left << setw(lenghtMenu - 7) << attr[i].append(".") << "|";
 			}
 			attr[i] = attr[i].substr(0, attr[i].length() - 1);
 		}
@@ -91,17 +91,17 @@ int PrintMenu(string attr[], int nAttr, int lenghtMenu, int printFrom = 0) {
 	else {
 		for (int i = 1; i < nAttr; i++) {
 			if (i < 10) {
-				cout << "\n\t\t| " << i << ". " << left << setw(lenghtMenu - 6) << attr[i].append(".") << "|";
+				cout << "\n\t\t\t\t\t\t\t\t" << tab << "| "  << i << ". " << left << setw(lenghtMenu - 6) << attr[i].append(".") << "|";
 			}
 			else {
-				cout << "\n\t\t| " << i << ". " << left << setw(lenghtMenu - 7) << attr[i].append(".") << "|";
+				cout << "\n\t\t\t\t\t\t\t\t" << tab << "| " << i << ". " << left << setw(lenghtMenu - 7) << attr[i].append(".") << "|";
 			}
 			attr[i] = attr[i].substr(0, attr[i].length() - 1);
 		}
 	}
 
 	// in footer
-	cout << "\n\t\t";
+	cout << "\n\t\t\t\t\t\t\t\t" << tab;
 	for (int i = 0; i < lenghtMenu; i++) {
 		if (i == 0 || i == lenghtMenu - 1) {
 			cout << "+";
@@ -111,7 +111,7 @@ int PrintMenu(string attr[], int nAttr, int lenghtMenu, int printFrom = 0) {
 		}
 	}
 	string sawn;
-	cout << "\nEnter your selection: "; getline(cin, sawn);
+	cout << "\n\t\t\t\t\t\t" << tab << "Enter your selection : "; getline(cin, sawn);
 	int awn = (printFrom == 0) ? CheckSelection(sawn, 0, nAttr - 2) : CheckSelection(sawn, 1, nAttr - 1);
 	return (printFrom == 0) ? awn : (awn - 1);
 }
@@ -121,48 +121,48 @@ void OutputFormedList(ProductList l, bool allInfor = false, string title = "PROD
 	string attr[6] = { "ID", "NAME", "BRAND", "IMPORT PRICE", "REMAINING", "PRICE" };
 	if (title == "CART") attr[4] = "QUANTITY";
 	if (l.head == NULL) {
-		cout << "\n\n\n\n\n\t\t\t+-------------------------+" << endl;
+		cout << "\n\n\n\n\n\t\t\t\t\t\t\t\t+-------------------------+" << endl;
 		if (title == "CART") {
-			cout << "\t\t\t|   " << title << " HAS NO PRODUCT   |" << endl;
+			cout << "\t\t\t\t\t\t\t\t|   " << title << " HAS NO PRODUCT   |" << endl;
 		}
 		else {
-			cout << "\t\t\t|   LIST HAS NO PRODUCT   |" << endl;
+			cout << "\t\t\t\t\t\t\t\t|   LIST HAS NO PRODUCT   |" << endl;
 		}
-		cout << "\t\t\t+-------------------------+\n\n\n\n\n\n" << endl;
+		cout << "\t\t\t\t\t\t\t\t+-------------------------+\n\n\n\n\n\n" << endl;
 	}
 	else if (!allInfor) {
-		cout << "\n\n\t\t\t\t\t" << title << " LIST\n";
-		cout << "\t+---------------------------------------------------------------------------------+" << endl;
-		cout << "\t|" << left << setw(12) << attr[0]
+		cout << "\n\n\t\t\t\t\t\t\t\t\t\t" << title << " LIST\n";
+		cout << "\t\t\t\t\t\t+---------------------------------------------------------------------------------+" << endl;
+		cout << "\t\t\t\t\t\t|" << left << setw(12) << attr[0]
 			<< "|  " << left << setw(20) << attr[1]
 			<< "|  " << left << setw(15) << attr[2]
 			<< "| " << left << setw(10) << attr[4]
 			<< "|  " << left << setw(13) << attr[5] << "|" << endl;
-		cout << "\t+---------------------------------------------------------------------------------+" << endl;
+		cout << "\t\t\t\t\t\t+---------------------------------------------------------------------------------+" << endl;
 		for (NodeProduct* p = l.head; p != NULL; p = p->next) {
-			cout << p->data;
+			cout << "\t\t\t\t\t" << p->data;
 		}
-		cout << "\t+---------------------------------------------------------------------------------+" << endl;
+		cout << "\t\t\t\t\t\t+---------------------------------------------------------------------------------+" << endl;
 	}
 	else {
-		cout << "\n\n\t\t\t\t\t" << title << " LIST\n";
-		cout << "\t+-----------------------------------------------------------------------------------------------+" << endl;
-		cout << "\t|" << left << setw(12) << attr[0]
+		cout << "\n\n\t\t\t\t\t\t\t\t\t" << title << " LIST\n";
+		cout << "\t\t\t\t+-----------------------------------------------------------------------------------------------+" << endl;
+		cout << "\t\t\t\t|" << left << setw(12) << attr[0]
 			<< "|  " << left << setw(20) << attr[1]
 			<< "|  " << left << setw(15) << attr[2]
 			<< "| " << left << setw(13) << attr[3]
 			<< "| " << left << setw(10) << attr[4]
 			<< "|  " << left << setw(12) << attr[5] << "|" << endl;
-		cout << "\t+-----------------------------------------------------------------------------------------------+" << endl;
+		cout << "\t\t\t\t+-----------------------------------------------------------------------------------------------+" << endl;
 		for (NodeProduct* p = l.head; p != NULL; p = p->next) {
-			cout << "\t|" << left << setw(12) << p->data.getId()
+			cout << "\t\t\t\t|" << left << setw(12) << p->data.getId()
 				<< "|  " << left << setw(20) << p->data.getName()
 				<< "|  " << left << setw(15) << p->data.getBrand()
 				<< "|" << right << setw(12) << p->data.getImportPrice()
 				<< "  |" << right << setw(9) << p->data.getQuantity()
 				<< "  |" << right << setw(12) << p->data.getPrice() << "  |" << endl;
 		}
-		cout << "\t+-----------------------------------------------------------------------------------------------+" << endl;
+		cout << "\t\t\t\t+-----------------------------------------------------------------------------------------------+" << endl;
 	}
 }
 
@@ -196,7 +196,7 @@ void PrintLineInvoice(int size, string s = "", string s2 = "", string type = "le
 	int spaceLen = (int)floor(((size - s.length())) - 4);
 	if (s2 != "") {
 		spaceLen = (int)floor(((size - s.length() - s2.length())) - 4);
-		cout << "\t\t| ";
+		cout << "\t\t\t\t\t\t\t| ";
 		cout << s;
 		for (int i = 0; i < spaceLen; i++) cout << " ";
 		cout << s2;
@@ -209,20 +209,20 @@ void PrintLineInvoice(int size, string s = "", string s2 = "", string type = "le
 		if (spaceLen * 2 + s.length() + 2 != size) {
 			s.append(" ");
 		};
-		cout << "\t\t|";
+		cout << "\t\t\t\t\t\t\t|";
 		for (int i = 0; i < spaceLen; i++) cout << " ";
 		cout << s;
 		for (int i = 0; i < spaceLen; i++) cout << " ";
 		cout << "|\n";
 	}
 	else if (type == "right") {
-		cout << "\t\t| ";
+		cout << "\t\t\t\t\t\t\t| ";
 		for (int i = 0; i < spaceLen; i++) cout << " ";
 		cout << s;
 		cout << " |\n";
 	}
 	else {
-		cout << "\t\t| ";
+		cout << "\t\t\t\t\t\t\t| ";
 		cout << s;
 		for (int i = 0; i < spaceLen; i++) cout << " ";
 		cout << " |\n";
@@ -233,8 +233,8 @@ void PrintLineInvoice(int size, string s = "", string s2 = "", string type = "le
 //ham in hang san pham
 void PrintLineProduct(int size, NodeProduct* p, int& total) {
 	PrintLineInvoice(size, p->data.getName().append("(").append(p->data.getId()).append(")"), "", "left");
-	cout << "\t\t|     " << left << setw(15) << p->data.getQuantity() << right << setw(15) << p->data.getPrice() << right << setw(size- 15 - 15 - 8) << p->data.getTotal();
-	cout << " |\n\t\t|";
+	cout << "\t\t\t\t\t\t\t|     " << left << setw(15) << p->data.getQuantity() << right << setw(15) << p->data.getPrice() << right << setw(size- 15 - 15 - 8) << p->data.getTotal();
+	cout << " |\n\t\t\t\t\t\t\t|";
 	for (int i = 0; i < (size - 2) / 2; i++) {
 		cout << "- ";
 	}
@@ -242,8 +242,32 @@ void PrintLineProduct(int size, NodeProduct* p, int& total) {
 	total += p->data.getTotal();
 }
 
-// sap xep 
-// file nhung product da ban
-// tinh doanh thu 
+//ham tach so thu tu id cuoi cung
+string FormatNoID(string id, int from, int lenght) {
+	string result = "";
+	int noId = stoi(id.substr(from, lenght), 0, 10) + 1;
+	int count = 0, tmp = noId;
+	while (tmp != 0) {
+		count++;
+		tmp /= 10;
+	}
+	for (int i = 0; i < lenght - count; i++) {
+		result.append("0");
+	}
+	result.append(to_string(noId));
+	return result;
+}
 
+//ham xuat hoa don
+void OutputInvoice(NodeInvoice* p) {
+	cout << "\t\t\t\t\t\t" << p->id << ", " << p->description << ", " << p->count << endl;
+	OutputFormedList(p->data, true);
+}
 
+//ham xuat danh sach hoa don
+void OutputListInvoice(InvoiceList il) {
+	for (NodeInvoice* p = il.head; p != NULL; p = p->next) {
+		OutputInvoice(p);
+		cout << endl;
+	}
+}

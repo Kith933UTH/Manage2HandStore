@@ -7,8 +7,9 @@ string mainSellSelection[] = {
 			"Find product",
 			"Add product to cart",
 			"Delete product from cart",
+			"Delete all product in cart",
 			"Check cart",
-			"Print invoice" },
+			"Print invoice"},
 		findSelection[] = {
 			"TYPE OF FIND",
 			"Return",
@@ -19,21 +20,25 @@ string mainSellSelection[] = {
 			"Store Description",
 			"Address: Store Address",
 			"Phone: Store Contact",
-			"Cashier: Staff Name" };
+			"Cashier: Staff Name", 
+			"5.0"};
 void FindProduct(ProductList l);
 void SellProduct(ProductList& l, ProductList& cart, string type = "Add");
-void PrintInvoice(ProductList cart, string* inFor, int size = 60);
+void PrintInvoice(ProductList& cart, int countProduct, InvoiceList& il, string* inFor, int size = 60);
+void ReturnCart(ProductList& cart, ProductList& l);
 
 
 /*--------------------------------------------------------------------------------*/
 
-void SellProductMenu(ProductList& l, ProductList& cart, ifstream& fileDataIn, ofstream& fileDataOut) {
+void SellProductMenu(ProductList& l, ProductList& cart, InvoiceList &il, ifstream& fileDataIn, ofstream& fileDataOut) {
+	CreateList(cart); // Khoi tao danh sach gio hang
+
 	int awn = -1;
 	bool ctn = true;
 
 	while (ctn) {
 		system("cls");
-		awn = PrintMenu(mainSellSelection, 8, 32);
+		awn = PrintMenu(mainSellSelection, 9, 32);
 		switch (awn) {
 		case 0: {
 			ctn = false;
@@ -53,7 +58,6 @@ void SellProductMenu(ProductList& l, ProductList& cart, ifstream& fileDataIn, of
 		case 3: {
 			system("cls");
 			SellProduct(l, cart);
-			system("pause");
 			break;
 		}
 		case 4: {
@@ -61,21 +65,27 @@ void SellProductMenu(ProductList& l, ProductList& cart, ifstream& fileDataIn, of
 			break;
 		}
 		case 5: {
+			ReturnCart(cart, l);
+			break;
+		}
+		case 6: {
 			system("cls");
 			OutputFormedList(cart, false, "CART");
 			system("pause");
 			break;
 		}
-		case 6: {
+		case 7: {
 			system("cls");
-			PrintInvoice(l, storeInfor, 60);
-			system("pause");
+			int i = 0;
+			for (NodeProduct* p = cart.head; p != NULL; p = p->next) {
+				i++;
+			}
+			PrintInvoice(cart, i, il, storeInfor, 60);
 			break;
 		}
 		}
 	}
 }
-
 
 void FindProduct(ProductList l) {
 	int awn = -1;
@@ -93,7 +103,7 @@ void FindProduct(ProductList l) {
 		}
 		case 1: {
 			string findString;
-			cout << "Enter infomation of product you want to find (id, name, brand): "; getline(cin, findString);
+			cout << "\t\t\t\t\tEnter infomation of product you want to find (id, name, brand): "; getline(cin, findString);
 			for (NodeProduct* p = l.head; p != NULL; p = p->next) {
 				if (MatchSearchKeyWord(p, findString)) {
 					NodeProduct* k = CreateNode(p->data);
@@ -106,13 +116,13 @@ void FindProduct(ProductList l) {
 		case 2: {
 			string sfrom, sto;
 			int from, to;
-			cout << "Price range to find from: "; getline(cin, sfrom);
+			cout << "\t\t\t\t\tPrice range to find from: "; getline(cin, sfrom);
 			from = CheckSelection(sfrom, 0, 0, true);
 			do {
-				cout << "To: "; getline(cin, sto);
+				cout << "\t\t\t\t\tTo: "; getline(cin, sto);
 				to = CheckSelection(sto, 0, 0, true);
 				if (to < from) {
-					cout << "Your range is invalid(from must less than to).\n Please enter again.\n";
+					cout << "\t\t\t\t\tYour range is invalid(from must less than to).\n\t\t\t\t\t Please enter again.\n";
 				}
 			} while (to < from);
 			for (NodeProduct* p = l.head; p != NULL; p = p->next) {
@@ -129,9 +139,9 @@ void FindProduct(ProductList l) {
 	}
 	system("cls");
 	if (result.head == NULL) {
-		cout << "\n\n\n\n\n\t\t\t+----------------------+" << endl;
-		cout << "\t\t\t|   NO PRODUCT MATCH   |" << endl;
-		cout << "\t\t\t+----------------------+\n\n\n\n\n\n" << endl;
+		cout << "\n\n\n\n\n\t\t\t\t\t\t\t\t+----------------------+" << endl;
+		cout << "\t\t\t\t\t\t\t\t|   NO PRODUCT MATCH   |" << endl;
+		cout << "\t\t\t\t\t\t\t\t+----------------------+\n\n\n\n\n\n" << endl;
 	}
 	else {
 		OutputFormedList(result, false, "MATCH PRODUCT");
@@ -141,22 +151,21 @@ void FindProduct(ProductList l) {
 
 void SellProduct(ProductList& from, ProductList& to, string type) {
 	system("cls");
-	//thoat neu lít rong
+	//thoat neu list rong
 	if (from.head == NULL) {
-		cout << "\n\n\n\n\n\t\t\t+----------------------+" << endl;
-		cout << "\t\t\t|  NO PRODUCT IN HERE  |" << endl;
-		cout << "\t\t\t+----------------------+\n\n\n\n\n\n" << endl;
+		cout << "\n\n\n\n\n\t\t\t\t\t\t\t\t+----------------------+" << endl;
+		cout << "\t\t\t\t\t\t\t\t|  NO PRODUCT IN HERE  |" << endl;
+		cout << "\t\t\t\t\t\t\t\t+----------------------+\n\n\n\n\n\n" << endl;
 		system("pause");
 		return;
 	}
-
-	string log[3] = { "\nEnter ID of product to buy: ", "\nHow many you want to buy: ", "Add successfully. Do you want to continue shopping" };
+	string log[3] = { "\n\t\t\t\t\tEnter ID of product to buy: ", "\n\t\t\t\t\tHow many you want to buy: ", "\t\t\t\t\tAdd successfully. Do you want to continue shopping" };
 	bool ctn = true, isAdd = true;
 	if (type != "Add") {
 		isAdd = false;
-		log[0] = "\nEnter ID of product to remove: ";
-		log[1] = "\nHow many you want to remove: ";
-		log[2] = "Remove successfully. Do you want to remove another product";
+		log[0] = "\n\t\t\t\t\tEnter ID of product to remove: ";
+		log[1] = "\n\t\t\t\t\tHow many you want to remove: ";
+		log[2] = "\t\t\t\t\tRemove successfully. Do you want to remove another product";
 	};
 
 	string id, awn;
@@ -170,10 +179,10 @@ void SellProduct(ProductList& from, ProductList& to, string type) {
 	}
 
 	do {
-		cout << log[1]; getline(cin, id);
+		cout << "\t\t\t\t\t" << log[0]; getline(cin, id);
 		if (ExistInList(from, id, p)) {
 			do {
-				cout << log[1]; getline(cin, awn);
+				cout << "\t\t\t\t\t" << log[1]; getline(cin, awn);
 				int quantity = CheckSelection(awn, 0, 0, true);
 				if (p->data.IsEnoughQuantity(quantity)) {
 					NodeProduct* k = TranferQuantity(from, p, quantity);
@@ -181,12 +190,12 @@ void SellProduct(ProductList& from, ProductList& to, string type) {
 					ctn = false;
 				}
 				else {
-					cout << "Quantity of this product is not enough.\n Please enter again.\n";
+					cout << "\t\t\t\t\tQuantity of this product is not enough.\n\t\t\t\t\t Please enter again.\n";
 				}
 			} while (ctn);
 		}
 		else {
-			if (!Continue("This ID not exist in list.\n Do you want to input again")) {
+			if (!Continue("\t\t\t\t\tThis ID not exist in list.\n\t\t\t\t\tDo you want to input again")) {
 				delete p;
 				return;
 			}
@@ -213,86 +222,126 @@ void SellProduct(ProductList& from, ProductList& to, string type) {
 	}
 }
 
-void PrintInvoice(ProductList cart, string *inFor, int size) {
+void PrintInvoice(ProductList& cart, int countProduct, InvoiceList &il, string *inFor, int size) {
 	if (cart.head == NULL) {
 		OutputFormedList(cart, false, "CART");
+		system("pause");
 		return;
 	}
-	//set mau chu
-	system("color 7");
-	//lay date
-	time_t cur = time(0);
-	tm* ltm = localtime(&cur);
-	string o = "0";
-	string date = "Date: ";
-	date.append((ltm->tm_mday >= 10) ? to_string(ltm->tm_mday) : o.append(to_string(ltm->tm_mday)))
-		.append("/")
-		.append((ltm->tm_mon + 1 >= 10) ? to_string(ltm->tm_mon + 1) : o.append(to_string(ltm->tm_mon + 1)))
-		.append("/")
-		.append(to_string(1900 + ltm->tm_year));
-	string time = "Time: ";
-	time.append((ltm->tm_hour >= 10) ? to_string(ltm->tm_hour) : o.append(to_string(ltm->tm_hour)))
-		.append(":")
-		.append((ltm->tm_min >= 10) ? to_string(ltm->tm_min) : o.append(to_string(ltm->tm_min)))
-		.append(":")
-		.append((ltm->tm_sec >= 10) ? to_string(ltm->tm_sec) : o.append(to_string(ltm->tm_sec)));
-	int innerSize = size - 2;
-	//in canh tren
-	cout << "\n\t\t";
-	for (int i = 0; i < size; i++) {
-		if (i == 0 || i == size - 1) {
-			cout << "+";
+	else {
+		string noInvoice = "No: PBH", discription = "";
+		noInvoice.append(FormatNoID(il.tail->id, 3, 6));
+		int total = 0;
+		time_t cur = time(0);	//lay date
+		tm* ltm = localtime(&cur);
+		string o = "0",
+			date = "Date: ",
+			time = "Time: ";
+		;
+		date.append((ltm->tm_mday >= 10) ? to_string(ltm->tm_mday) : o.substr(0, 1).append(to_string(ltm->tm_mday)))
+			.append("/")
+			.append((ltm->tm_mon + 1 >= 10) ? to_string(ltm->tm_mon + 1) : o.substr(0, 1).append(to_string(ltm->tm_mon + 1)))
+			.append("/")
+			.append(to_string(1900 + ltm->tm_year));
+		time.append((ltm->tm_hour >= 10) ? to_string(ltm->tm_hour ) : o.substr(0, 1).append(to_string(ltm->tm_hour)))
+			.append(":")
+			.append((ltm->tm_min >= 10) ? to_string(ltm->tm_min) : o.substr(0, 1).append(to_string(ltm->tm_min)))
+			.append(":")
+			.append((ltm->tm_sec >= 10) ? to_string(ltm->tm_sec) : o.substr(0, 1).append((to_string(ltm->tm_sec))));
+		discription.append(storeInfor[4].substr(9)).append("-").append(date.substr(6)).append("-").append(time.substr(6));
+		//khoi tao hoa don
+		NodeInvoice* invoice = CreateNodeInvoice(noInvoice.substr(4),discription, countProduct, cart);
+		//in canh tren
+		cout << "\n\t\t\t\t\t\t\t";
+		for (int i = 0; i < size; i++) {
+			if (i == 0 || i == size - 1) {
+				cout << "+";
+			}
+			else {
+				cout << "-";
+			}
+		}
+		cout << endl;
+		//in thong tin cua hang
+		PrintLineInvoice(size, inFor[0], "", "center");//in ten cua hang
+		PrintLineInvoice(size, inFor[1], "", "center");	//in mieu ta cua hang
+		PrintLineInvoice(size, inFor[2], "", "left");	//in dia chi
+		PrintLineInvoice(size, inFor[3], "", "left");	//in sdt
+		PrintLineInvoice(size, "_____________________________________", "", "center");
+		PrintLineInvoice(size, "INVOICE", "", "center");
+		PrintLineInvoice(size, noInvoice, date);	//in ma hoa don va ngay
+		PrintLineInvoice(size, inFor[4], time);	//in ten nhan vien va gio
+
+		//in tieu de
+		PrintLineInvoice(size, "________________________________________________________", "", "center");
+		cout << "\t\t\t\t\t\t\t|   " << left << setw(15) << "QUANTITY" << right << setw(17) << "PRICE" << right << setw(size - 15 - 16 - 4) << "TOTAL   |\n";
+		PrintLineInvoice(size, "________________________________________________________", "", "center");
+		PrintLineInvoice(size, "", "", "center");
+
+
+		// in san pham
+		for (NodeProduct* p = cart.head; p != NULL; p = p->next) {
+			PrintLineProduct(size, p, total);
+		}
+		// in thanh toan
+		string discount = "                         DISCOUNT";
+		float discountRate = stof(inFor[5]);
+		PrintLineInvoice(size, "", "", "center");
+		PrintLineInvoice(size, "                         TOTAL: ", to_string(total));
+		PrintLineInvoice(size, discount.append("(").append(inFor[5]).append("%): "), to_string((int)(total * discountRate / 100)));
+		PrintLineInvoice(size, "                         TOTAL PAYMENT: ", to_string((int)(total - total * discountRate / 100)));
+		//in footer
+		PrintLineInvoice(size, "________________________________________________________", "", "center");
+		PrintLineInvoice(size, "Thank you and see you again <3", "", "center");
+		//in canh duoi
+		cout << "\t\t\t\t\t\t\t";
+		for (int i = 0; i < size; i++) {
+			if (i == 0 || i == size - 1) {
+				cout << "+";
+			}
+			else {
+				cout << "-";
+			}
+		}
+
+		// kiem tra khach hang co chac chan mua hay khong
+
+		if (Continue("\n\t\t\t\t\t\tAre you sure to buy this order or change your cart")) {
+			FreeData(cart);
+			AddTailInvoiceList(il, invoice);
+			system("cls");
+			cout << "\n\n\n\n\n\t\t\t\t\t\t+-----------------------------------+";
+			cout << "\n\t\t\t\t\t\t|   SUCCESSFUL PURCHASE. THANKS <3  |";
+			cout << "\n\t\t\t\t\t\t+-----------------------------------+\n\n\n\n\n\n\n\n\n\n\n\n";
+			system("pause");
+			return;
 		}
 		else {
-			cout << "-";
+			return;
 		}
 	}
-	cout << endl;
-	//in ten cua hang
-	PrintLineInvoice(size, inFor[0], "", "center");
-	//in mieu ta cua hang
-	PrintLineInvoice(size, inFor[1], "", "center");
-	//in dia chi
-	PrintLineInvoice(size, inFor[2], "", "left");
-	//in sdt
-	PrintLineInvoice(size, inFor[3], "", "left");
+}
 
-	PrintLineInvoice(size, "_____________________________________", "", "center");
-
-	PrintLineInvoice(size, "INVOICE", "", "center");
-
-	string MPBH = "NO: PBH100001";
-	//in ma hoa don va ngay
-	PrintLineInvoice(size, MPBH, date);
-	//in ten nhan vien va gio
-	PrintLineInvoice(size, inFor[4], time);
-	PrintLineInvoice(size, "________________________________________________________", "", "center");
-	cout << "\t\t|   " << left << setw(15) << "QUANTITY" << right << setw(17) << "PRICE" << right << setw(size - 15 - 16 - 4) << "TOTAL   |\n";
-	PrintLineInvoice(size, "________________________________________________________", "", "center");
-	PrintLineInvoice(size, "", "", "center");
-
-
-	int total = 0;
-	// in san pham
-	for (NodeProduct* p = cart.head; p != NULL; p = p->next) {
-		PrintLineProduct(size, p, total);
+void ReturnCart(ProductList& cart, ProductList& l) {
+	if (cart.head == NULL) {
+		system("cls");
+		cout << "\n\n\n\n\n\t\t\t\t\t\t\t\t+----------------------+" << endl;
+		cout << "		   \t\t\t\t\t\t\t\t|  NO PRODUCT IN HERE  |" << endl;
+		cout << "		   \t\t\t\t\t\t\t\t+----------------------+\n\n\n\n\n\n" << endl;
+		system("pause");
+		return;
 	}
-	PrintLineInvoice(size, "", "", "center");
-	string stotal = "TOTAL: ";
-	PrintLineInvoice(size, stotal.append(to_string(total)), "", "right");
-	
-
-	PrintLineInvoice(size, "________________________________________________________", "", "center");
-	PrintLineInvoice(size, "Thank you and see you again <3", "", "center");
-
-	cout << "\t\t";
-	for (int i = 0; i < size; i++) {
-		if (i == 0 || i == size - 1) {
-			cout << "+";
-		}
-		else {
-			cout << "-";
-		}
+	NodeProduct* k = NULL;
+	for (NodeProduct* p = cart.head; p != NULL; p = k) {
+		k = p->next;
+		NodeProduct* tmp = TranferQuantity(cart, p, p->data.getQuantity());
+		AddToList(l, tmp);
 	}
-	cout << "\n\n";
+	system("cls");
+	cout << "\n\n\n\n\n\t\t\t\t\t\t\t\t+----------------------------+" << endl;
+	cout <<           "\t\t\t\t\t\t\t\t|  RETURN CART SUCCESSFULLY  |" << endl;
+	cout <<			  "\t\t\t\t\t\t\t\t+----------------------------+\n\n\n\n\n\n" << endl;
+	system("pause");
+	return;
+	delete k;
 }

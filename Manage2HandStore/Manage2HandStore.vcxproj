@@ -141,6 +141,7 @@
   <ItemGroup>
     <ClInclude Include="Function.h" />
     <ClInclude Include="HandleFile.h" />
+    <ClInclude Include="InvoiceList.h" />
     <ClInclude Include="MainMenu.h" />
     <ClInclude Include="Product2H.h" />
     <ClInclude Include="Product2HList.h" />

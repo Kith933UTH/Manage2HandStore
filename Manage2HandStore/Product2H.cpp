@@ -74,10 +74,10 @@ ostream& operator<<(ostream& out, const Product2H& p) {
 };
 istream& operator>>(istream& in, Product2H& p) {
 	string temp;
-	cout << "\nEnter name: "; getline(in, temp); p.setName(temp);
-	cout << "Enter brand: "; getline(in, temp); p.setBrand(temp);
-	cout << "Enter import price: "; getline(in, temp); p.setImportPrice(CheckSelection(temp, 0, 0, true));
-	cout << "Enter quantity: "; getline(in, temp); p.setQuantity(CheckSelection(temp, 0, 0, true));
+	cout << "\n\t\t\tEnter name: "; getline(in, temp); p.setName(temp);
+	cout << "\n\t\t\tEnter brand: "; getline(in, temp); p.setBrand(temp);
+	cout << "\n\t\t\tEnter import price: "; getline(in, temp); p.setImportPrice(CheckSelection(temp, 0, 0, true));
+	cout << "\n\t\t\tEnter quantity: "; getline(in, temp); p.setQuantity(CheckSelection(temp, 0, 0, true));
 	p.setPrice((int)(p.importPrice * PROFIT));
 	return in;
 };
@@ -90,7 +90,7 @@ int CheckSelection(string& sawn, int from, int to, bool isCheckPositiveInteger) 
 	if (isCheckPositiveInteger) {
 		do {
 			if (atoi(sawn.c_str()) <= 0) {
-				cout << "It isn't a good number!\nPlease choose again: ";
+				cout << "\t\t\t\t\tIt isn't a good number!\n\t\t\t\t\tPlease choose again: ";
 				getline(cin, sawn);
 				inRange = false;
 			}
@@ -108,7 +108,7 @@ int CheckSelection(string& sawn, int from, int to, bool isCheckPositiveInteger) 
 				}
 			}
 			if (!inRange) {
-				cout << "Your selection is not exist.\nPlease choose again: ";
+				cout << "\t\t\t\t\tYour selection is not exist.\n\t\t\t\t\tPlease choose again: ";
 				getline(cin, sawn);
 				awn = -1;
 			}
