@@ -1,7 +1,6 @@
-100001-L,ao tay dai,lv, 1000000 100
-100002-XL,quan jensu,vl, 20000 2000
-100003-2XL,quan ong bo,no brand, 30000 3000
-100004-3XL,quan jean,vl, 40000 5000
-100005-35,jordan 1,jr, 20000 2000
-100006-40,nike air,nike, 20000 1990
-100007-44,adidas,adidas, 20000 2000
+300001-000,Tui xach deo vai,Chanel, 1000000 10
+510002-XL,Vay nu,Nelli, 80000 1
+100003-2XL,Ao nam tay ngan,no brand, 100000 20
+210004-3XL,Quan jean ong rong,Uniqlo, 300000 7
+400005-35,Sneaker the thao,Adidas, 700000 2
+410006-40,Nike Air Force 1,Nike, 3000000 1

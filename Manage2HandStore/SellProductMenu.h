@@ -326,8 +326,8 @@ void ReturnCart(ProductList& cart, ProductList& l) {
 	if (cart.head == NULL) {
 		system("cls");
 		cout << "\n\n\n\n\n\t\t\t\t\t\t\t\t+----------------------+" << endl;
-		cout << "		   \t\t\t\t\t\t\t\t|  NO PRODUCT IN HERE  |" << endl;
-		cout << "		   \t\t\t\t\t\t\t\t+----------------------+\n\n\n\n\n\n" << endl;
+		cout << "		   \t\t\t\t\t\t|  NO PRODUCT IN HERE  |" << endl;
+		cout << "		   \t\t\t\t\t\t+----------------------+\n\n\n\n\n\n" << endl;
 		system("pause");
 		return;
 	}
