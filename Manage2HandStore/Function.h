@@ -9,28 +9,29 @@ string ToLower(string str) {
 	return str;
 }
 
+//ham thoa theo loai hang
+bool MatchType(NodeProduct* p, int type, string gender = "") {
+	int indexToSearch = 0;
+	string valueToSearch = to_string(type);
+	if (gender == "Men" || gender == "Women") {
+		indexToSearch = 1;
+		valueToSearch = gender == "Men" ? to_string(1) : to_string(0);
+	}
+	return (p->data.getId().substr(indexToSearch, 1) == valueToSearch);
+}
+
 //ham thoa tim kiem tu khoa
 bool MatchSearchKeyWord(NodeProduct* p, string findString) {
 	findString = ToLower(findString);
 	size_t result = ToLower(p->data.getId()).find(findString);
 	size_t ndresult = ToLower(p->data.getName()).find(findString);
 	size_t rdresult = ToLower(p->data.getBrand()).find(findString);
-	if (result != string::npos || ndresult != string::npos || rdresult != string::npos) {
-		return true;
-	}
-	else {
-		return false;
-	}
+	return (result != string::npos || ndresult != string::npos || rdresult != string::npos);
 }
 
 //ham thoa tim kiem theo khoang gia
 bool MatchSearchPrice(NodeProduct* p, int from, int to) {
-	if (p->data.getPrice() >= from && p->data.getPrice() <= to) {
-		return true;
-	}
-	else {
-		return false;
-	}
+	return (p->data.getPrice() >= from && p->data.getPrice() <= to);
 }
 
 //ham tach so luong san pham

@@ -13,6 +13,13 @@ string mainSellSelection[] = {
 		findSelection[] = {
 			"TYPE OF FIND",
 			"Return",
+			"Shirt",
+			"Trousers",
+			"Handbag",
+			"Footwear",
+			"Others",
+			"Men",
+			"Women",
 			"Key word (id, name, brand)",
 			"Price"},
 		storeInfor[] = {
@@ -95,13 +102,76 @@ void FindProduct(ProductList l) {
 
 	while (ctn) {
 		system("cls");
-		awn = PrintMenu(findSelection, 4, 33);
+		awn = PrintMenu(findSelection, 11, 33);
 		switch (awn) {
 		case 0: {
 			ctn = false;
 			return;
 		}
 		case 1: {
+			for (NodeProduct* p = l.head; p != NULL; p = p->next) {
+				if (MatchType(p, 1)) {
+					NodeProduct* k = CreateNode(p->data);
+					AddTail(result, k);
+				}
+			}
+			break;
+		}
+		case 2: {
+			for (NodeProduct* p = l.head; p != NULL; p = p->next) {
+				if (MatchType(p, 2)) {
+					NodeProduct* k = CreateNode(p->data);
+					AddTail(result, k);
+				}
+			}
+			break;
+		}
+		case 3: {
+			for (NodeProduct* p = l.head; p != NULL; p = p->next) {
+				if (MatchType(p, 3)) {
+					NodeProduct* k = CreateNode(p->data);
+					AddTail(result, k);
+				}
+			}
+			break;
+		}
+		case 4: {
+			for (NodeProduct* p = l.head; p != NULL; p = p->next) {
+				if (MatchType(p, 4)) {
+					NodeProduct* k = CreateNode(p->data);
+					AddTail(result, k);
+				}
+			}
+			break;
+		}
+		case 5: {
+			for (NodeProduct* p = l.head; p != NULL; p = p->next) {
+				if (MatchType(p, 5)) {
+					NodeProduct* k = CreateNode(p->data);
+					AddTail(result, k);
+				}
+			}
+			break;
+		}
+		case 6: {
+			for (NodeProduct* p = l.head; p != NULL; p = p->next) {
+				if (MatchType(p, 0, "Men")) {
+					NodeProduct* k = CreateNode(p->data);
+					AddTail(result, k);
+				}
+			}
+			break;
+		}
+		case 7: {
+			for (NodeProduct* p = l.head; p != NULL; p = p->next) {
+				if (MatchType(p, 0, "Women")) {
+					NodeProduct* k = CreateNode(p->data);
+					AddTail(result, k);
+				}
+			}
+			break;
+		}
+		case 8: {
 			string findString;
 			cout << "\t\t\t\t\tEnter infomation of product you want to find (id, name, brand): "; getline(cin, findString);
 			for (NodeProduct* p = l.head; p != NULL; p = p->next) {
@@ -110,10 +180,9 @@ void FindProduct(ProductList l) {
 					AddTail(result, k);
 				}
 			}
-			ctn = false;
 			break;
 		}
-		case 2: {
+		case 9: {
 			string sfrom, sto;
 			int from, to;
 			cout << "\t\t\t\t\tPrice range to find from: "; getline(cin, sfrom);
@@ -131,22 +200,26 @@ void FindProduct(ProductList l) {
 					AddTail(result, k);
 				}
 			}
-			ctn = false;
 			break;
 		}
 		}
-	
+		system("cls");
+		if (result.head == NULL) {
+			cout << "\n\n\n\n\n\t\t\t\t\t\t\t\t+----------------------+" << endl;
+			cout << "\t\t\t\t\t\t\t\t|   NO PRODUCT MATCH   |" << endl;
+			cout << "\t\t\t\t\t\t\t\t+----------------------+\n\n\n\n\n\n" << endl;
+		}
+		else {
+			OutputFormedList(result, false, "MATCH PRODUCT");
+		}
+		if (Continue("\t\t\t\t\tDo you want to continue find another product")) {
+			ctn = true;
+		}
+		else {
+			ctn = false;
+			FreeData(result);
+		}
 	}
-	system("cls");
-	if (result.head == NULL) {
-		cout << "\n\n\n\n\n\t\t\t\t\t\t\t\t+----------------------+" << endl;
-		cout << "\t\t\t\t\t\t\t\t|   NO PRODUCT MATCH   |" << endl;
-		cout << "\t\t\t\t\t\t\t\t+----------------------+\n\n\n\n\n\n" << endl;
-	}
-	else {
-		OutputFormedList(result, false, "MATCH PRODUCT");
-	}
-	system("pause");
 }
 
 void SellProduct(ProductList& from, ProductList& to, string type) {
