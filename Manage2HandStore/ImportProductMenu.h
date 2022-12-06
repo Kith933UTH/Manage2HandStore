@@ -1,12 +1,13 @@
 #include "Function.h"
 
-string mainImportSelection[7] = {
+string mainImportSelection[8] = {
 			"IMPORT PRODUCT MENU",
 			"Return",
 			"Show all product",
 			"Import product",
 			"Change information product",
 			"Delele product",
+			"Sort",
 			"Print all recent invoice" },
 		type[6] = {
 			"ENTER TYPE",
@@ -58,7 +59,7 @@ void ImportProductMenu(ProductList& l, InvoiceList il, ifstream& fileDataIn, ofs
 	bool ctn = true;
 	while (ctn) {
 		system("cls");
-		awn = PrintMenu(mainImportSelection, 7, 35);
+		awn = PrintMenu(mainImportSelection, 8, 35);
 		switch (awn) {
 		case 0: {
 			ctn = false;
@@ -84,6 +85,16 @@ void ImportProductMenu(ProductList& l, InvoiceList il, ifstream& fileDataIn, ofs
 			break;
 		}
 		case 5: {
+			bool tmp = SortMenu(l);
+			system("cls");
+			OutputFormedList(l, true);
+			if (tmp) {
+				cout << "\n\t\t\t\t\tList after successfully sorted.\n";
+			}
+			system("pause");
+			break;
+		}
+		case 6: {
 			system("cls");
 			OutputListInvoice(il);
 			system("pause");
@@ -163,7 +174,7 @@ string InputID(ProductList l, string &description) {
 			id.append("0001");
 		}
 		else {
-			string tmp = FormatNoID(l.tail->data.getId(), 2, 4);
+			string tmp = MakeNoId(l, 2, 4);
 			id.append(tmp);
 		}
 		id.append("-");

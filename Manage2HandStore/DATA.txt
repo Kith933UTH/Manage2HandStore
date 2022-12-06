@@ -1,6 +1,6 @@
-300001-000,Tui xach deo vai,Chanel, 1000000 10
-510002-XL,Vay nu,Nelli, 80000 1
 100003-2XL,Ao nam tay ngan,no brand, 100000 20
 210004-3XL,Quan jean ong rong,Uniqlo, 300000 7
+300001-000,Tui xach deo vai,Chanel, 1000000 10
 400005-35,Sneaker the thao,Adidas, 700000 2
 410006-40,Nike Air Force 1,Nike, 3000000 1
+510002-XL,Vay nu,Nelli, 80000 1

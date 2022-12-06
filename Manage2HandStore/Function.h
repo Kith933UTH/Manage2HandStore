@@ -243,22 +243,6 @@ void PrintLineProduct(int size, NodeProduct* p, int& total) {
 	total += p->data.getTotal();
 }
 
-//ham tach so thu tu id cuoi cung
-string FormatNoID(string id, int from, int lenght) {
-	string result = "";
-	int noId = stoi(id.substr(from, lenght), 0, 10) + 1;
-	int count = 0, tmp = noId;
-	while (tmp != 0) {
-		count++;
-		tmp /= 10;
-	}
-	for (int i = 0; i < lenght - count; i++) {
-		result.append("0");
-	}
-	result.append(to_string(noId));
-	return result;
-}
-
 //ham xuat hoa don
 void OutputInvoice(NodeInvoice* p) {
 	cout << "\t\t\t\t\t\t" << p->id << ", " << p->description << ", " << p->count << endl;
@@ -271,4 +255,142 @@ void OutputListInvoice(InvoiceList il) {
 		OutputInvoice(p);
 		cout << endl;
 	}
+}
+
+//ham tim so thu tu lon nhat
+string MakeNoId(ProductList list, int from, int lenght) {
+	string max = list.head->data.getId().substr(from, lenght);
+	string result = "";
+	for (NodeProduct* p = list.head; p != NULL; p = p->next) {
+		string tmp = p->data.getId().substr(from, lenght);
+		if (tmp > max) {
+			max = tmp;
+		}
+	}
+	int noId = stoi(max, 0, 10) + 1;
+	int count = 0, tmp = noId;
+	while (tmp != 0) {
+		count++;
+		tmp /= 10;
+	}
+	for (int i = 0; i < lenght - count; i++) {
+		result.append("0");
+	}
+	return result.append(to_string(noId));
+}
+string MakeNoId(InvoiceList list, int from, int lenght) {
+	string max = list.head->id.substr(from, lenght);
+	string result = "";
+	for (NodeInvoice* p = list.head; p != NULL; p = p->next) {
+		string tmp = p->id.substr(from, lenght);
+		if (tmp > max) {
+			max = tmp;
+		}
+	}
+	int noId = stoi(max, 0, 10) + 1;
+	int count = 0, tmp = noId;
+	while (tmp != 0) {
+		count++;
+		tmp /= 10;
+	}
+	for (int i = 0; i < lenght - count; i++) {
+		result.append("0");
+	}
+	return result.append(to_string(noId));
+}
+
+//ham sap xep(type, gender, noId)
+void Sort(ProductList& l, string type = "id") {
+	if (type == "name") {
+		for (NodeProduct* p = l.head; p != l.tail; p = p->next) {
+			for (NodeProduct* k = p->next; k != NULL; k = k->next) {
+				if (ToLower(p->data.getName().substr(0, 1)) > ToLower(k->data.getName().substr(0, 1))) {
+					SwapData(p, k);
+				}
+			}
+		}
+		return;
+	}
+	if (type == "price") {
+		for (NodeProduct* p = l.head; p != l.tail; p = p->next) {
+			for (NodeProduct* k = p->next; k != NULL; k = k->next) {
+				if (p->data.getPrice() > k->data.getPrice()) {
+					SwapData(p, k);
+				}
+			}
+		}
+		return;
+	}
+	if (type == "brand") {
+		for (NodeProduct* p = l.head; p != l.tail; p = p->next) {
+			for (NodeProduct* k = p->next; k != NULL; k = k->next) {
+				if (ToLower(p->data.getBrand().substr(0, 1)) > ToLower(k->data.getBrand().substr(0, 1))) {
+					SwapData(p, k);
+				}
+			}
+		}
+		return;
+	}
+	int index, lenght;
+	if (type == "type") {
+		index = 0;
+		lenght = 1;
+	}
+	else if (type == "gender") {
+		index = 1;
+		lenght = 1;
+	}
+	else {
+		index = 2;
+		lenght = 4;
+	}
+	for (NodeProduct* p = l.head; p != l.tail; p = p->next) {
+		for (NodeProduct* k = p->next; k != NULL; k = k->next) {
+			if (p->data.getId().substr(index, lenght) > k->data.getId().substr(index, lenght)) {
+				SwapData(p, k);
+			}
+		}
+	}
+}
+
+//menu sap xep
+string sortSelection[] = {
+	"SORT BY",
+	"Type",
+	"Gender",
+	"Number id",
+	"Name",
+	"Brand",
+	"Price" };
+bool SortMenu(ProductList& l) {
+	if (l.head == NULL) return false;
+	system("cls");
+	int awn = PrintMenu(sortSelection, 7, 20, 1);
+	switch (awn) {
+	case 0: {
+		Sort(l, "type");
+		break;
+	}
+	case 1: {
+		Sort(l, "gender");
+		break;
+	}
+	case 2: {
+		Sort(l, "id");
+		break;
+	}
+	case 3: {
+		Sort(l, "name");
+		break;
+	}
+	case 4: {
+		Sort(l, "brand");
+		break;
+	}
+	case 5: {
+		Sort(l, "price");
+		break;
+	}
+	}
+	return true;
 }

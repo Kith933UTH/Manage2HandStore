@@ -8,6 +8,7 @@ string mainSellSelection[] = {
 			"Add product to cart",
 			"Delete product from cart",
 			"Delete all product in cart",
+			"Sort cart",
 			"Check cart",
 			"Print invoice"},
 		findSelection[] = {
@@ -45,7 +46,7 @@ void SellProductMenu(ProductList& l, ProductList& cart, InvoiceList &il, ifstrea
 
 	while (ctn) {
 		system("cls");
-		awn = PrintMenu(mainSellSelection, 9, 32);
+		awn = PrintMenu(mainSellSelection, 10, 32);
 		switch (awn) {
 		case 0: {
 			ctn = false;
@@ -76,12 +77,22 @@ void SellProductMenu(ProductList& l, ProductList& cart, InvoiceList &il, ifstrea
 			break;
 		}
 		case 6: {
+			bool tmp = SortMenu(cart);
+			system("cls");
+			OutputFormedList(cart, true, "CART");
+			if (tmp) {
+				cout << "\n\t\t\t\t\tCart after successfully sorted.\n";
+			}
+			system("pause");
+			break;
+		}
+		case 7: {
 			system("cls");
 			OutputFormedList(cart, false, "CART");
 			system("pause");
 			break;
 		}
-		case 7: {
+		case 8: {
 			system("cls");
 			int i = 0;
 			for (NodeProduct* p = cart.head; p != NULL; p = p->next) {
@@ -303,7 +314,7 @@ void PrintInvoice(ProductList& cart, int countProduct, InvoiceList &il, string *
 	}
 	else {
 		string noInvoice = "No: PBH", discription = "";
-		noInvoice.append(FormatNoID(il.tail->id, 3, 6));
+		noInvoice.append(MakeNoId(il, 3, 6));
 		int total = 0;
 		time_t cur = time(0);	//lay date
 		tm* ltm = localtime(&cur);
