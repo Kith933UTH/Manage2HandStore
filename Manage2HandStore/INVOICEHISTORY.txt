@@ -1,4 +1,4 @@
-PBH000001,    tuan kiet-03/12/2022-04:05:33, 7
+PBH000001,     tuan kiet-03/12/2022-04:05:33, 7
 100001-L,ao tay dai,lv, 1000000 100
 100002-XL,quan jensu,vl, 20000 2000
 100003-2XL,quan ong bo,no brand, 30000 3000
@@ -7,7 +7,7 @@ PBH000001,    tuan kiet-03/12/2022-04:05:33, 7
 100006-40,nike air,nike, 20000 2000
 100007-44,adidas,adidas, 20000 2000
 
-PBH000002,    tuan kiet-03/12/2022-04:06:11, 6
+PBH000002,     tuan kiet-03/12/2022-04:06:11, 6
 100001-L,ao tay dai,lv, 1000000 100
 100002-XL,quan jensu,vl, 20000 2000
 100003-2XL,quan ong bo,no brand, 30000 3000
@@ -15,8 +15,8 @@ PBH000002,    tuan kiet-03/12/2022-04:06:11, 6
 100005-35,jordan 1,jr, 20000 2000
 100006-40,nike air,nike, 20000 2000
 
-PBH000003,   Staff Name-03/12/2022-14:23:12, 1
+PBH000003,    Staff Name-03/12/2022-14:23:12, 1
 100006-40,nike air,nike, 20000 10
 
-PBH000004,  Staff Name-04/12/2022-21:43:05, 1
+PBH000004,   Staff Name-04/12/2022-21:43:05, 1
 510002-XL,Vay nu,Nelli, 80000 4

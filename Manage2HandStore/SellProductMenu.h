@@ -331,7 +331,8 @@ void PrintInvoice(ProductList& cart, int countProduct, InvoiceList &il, string *
 			.append(":")
 			.append((ltm->tm_min >= 10) ? to_string(ltm->tm_min) : o.substr(0, 1).append(to_string(ltm->tm_min)))
 			.append(":")
-			.append((ltm->tm_sec >= 10) ? to_string(ltm->tm_sec) : o.substr(0, 1).append((to_string(ltm->tm_sec))));
+			.append((ltm->tm_sec >= 10) ? to_string(ltm->tm_sec) : o.substr(0, 1).append((to_string(ltm->tm_sec))))
+			.append("  ");
 		discription.append(storeInfor[4].substr(9)).append("-").append(date.substr(6)).append("-").append(time.substr(6));
 		//khoi tao hoa don
 		NodeInvoice* invoice = CreateNodeInvoice(noInvoice.substr(4),discription, countProduct, cart);

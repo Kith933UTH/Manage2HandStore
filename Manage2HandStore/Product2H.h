@@ -4,8 +4,8 @@
 #include <string> //lam viec voi chuoi
 #include <iomanip> //setw()
 #include <ctime> //time
-#include <cmath>
-#include <conio.h>
+//#include <cmath>
+//#include <conio.h>
 
 #define PROFIT 1.2
 #pragma warning(disable : 4996)
